@@ -14,15 +14,25 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
-        Member member = new Member();
-        member.setId(2L);
-        member.setName("HelloA");
-
-        em.persist(member);
-
-        tx.commit();
-        em.close();
+        try {
+            Member findMember = em.find(Member.class, 1L);
+            System.out.println("findMember.getId() = " + findMember.getId());
+            System.out.println("findMember.name = " + findMember.getName());
+            em.persist();
+            tx.commit();
+        } catch(Exception e){
+            tx.rollback();
+        } finally {
+            em.close();
+        }
         emf.close();
 
     }
 }
+
+/**
+ * em.persist()은 실행시 DB가 저장되는게 아니라 영속성컨텍스트에서 쓰기지연소에 저장되고
+ * tx.commit()이 실행될때 쓰기지연소에있는 insert문이 실행된다.
+ *
+ * 수정은 entity의 set으로 변경된 사유가 있을경우 tx.commit() 실행시 변경된 히스토리를 파악하여 update 쿼리를 날린다.
+ */
