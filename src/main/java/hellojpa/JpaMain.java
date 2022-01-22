@@ -16,11 +16,10 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member(200L, "member200");
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAAAA");
 
-            em.persist(member);
-
-            em.flush();
+            em.detach(member);
 
             tx.commit();
         } catch(Exception e){
@@ -54,3 +53,23 @@ public class JpaMain {
  *  - JPQL쿼리 실행 - 플러시 자동호출
  *
 */
+
+
+/**
+ * ### 준영속 상태
+ *
+ *  - 영속 -> 준영속
+ *  - 영속 상태의 엔티티가 영속성 컨텍스트에서 분리
+ *  - 영속성 컨텍스트가 제공하는 기능을 사용 못함
+ *
+ *  준영속 상태로 만드는 방법
+ *  - em.detach(entity)
+ *   특정 엔티티만 준영속 상태로 전환
+ *   
+ *  - em.clear()
+ *   영속성 컨텍스트를 완전히 초기화
+ *   
+ *  - em.close()
+ *   영속성 컨텍스트를 종료
+ *  
+ */
