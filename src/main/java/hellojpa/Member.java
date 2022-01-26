@@ -2,15 +2,20 @@ package hellojpa;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+/**
+ * @Table(name= "실제테이블명") 으로 table명을 지정할수있다.
+ */
 @Entity
+@Table
 public class Member {
 
     @Id
     private Long id;
     private String name;
 
-    public Member(long l, String member200) {
+    public Member() {
     }
 
     public Long getId() {
