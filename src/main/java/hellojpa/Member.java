@@ -14,8 +14,15 @@ public class Member {
     @Id
     private Long id;
     private String name;
+    private int age;
+    
+    public Member(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Member() {
+
     }
 
     public Long getId() {
@@ -58,3 +65,20 @@ public class Member {
  *
  */
 
+/**
+ * 데이터 베이스 스키마 자동 생성
+ *
+ * - DDL을 애플리케이션 동작시점에 자동생성
+ * - 테이블중심-> 객체중심
+ * - 데이터베이스 방언을 활용해서 데이터베이스에 맞는 적절한 DDL 생성
+ * - 이렇게 생성된 DDL은 개발에서만 사용
+ * - 생성된 DDL은 운영서버에서는 사용하지 않거나 적절히 다듬은후 사용
+ *
+ * 옵션
+ * 1. create - 기존테이블 삭제후 다시생성 (DROP + CREATE)
+ * 2. create-drop - create와 같으나 종료시점에 테이블 DROP
+ * 3. update - 변경분만 반영(운영 DB에는 사용 XXXX)
+ * 4. validate 엔티티와 테이블이 정상 매핑되었는지만 확인
+ * 5. none - 사용하지않음
+ *
+ */
