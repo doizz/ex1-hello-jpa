@@ -1,5 +1,6 @@
 package hellojpa;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,6 +14,7 @@ public class Member {
 
     @Id
     private Long id;
+    @Column(unique = true, length = 10)
     private String name;
     private int age;
     
@@ -81,4 +83,8 @@ public class Member {
  * 4. validate 엔티티와 테이블이 정상 매핑되었는지만 확인
  * 5. none - 사용하지않음
  *
+ * ★★★운영 장비에는 절대 create, create-drop, update 사용하면 안된다.
+ * 개발초기 단계에는 create 또는 update
+ * 테스트 서버는 update 또는 validate
+ * 스테이징과 운영서버는 validate 또는 none
  */
