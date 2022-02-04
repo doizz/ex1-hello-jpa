@@ -1,9 +1,7 @@
 package hellojpa;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @Table(name= "실제테이블명") 으로 table명을 지정할수있다.
@@ -14,18 +12,23 @@ public class Member {
 
     @Id
     private Long id;
-    @Column(unique = true, length = 10)
-    private String name;
+
+    @Column(name="name")
+    private String username;
+
     private int age;
-    
-    public Member(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
-    public Member() {
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
 
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+
+    @Lob
+    private String description;
 
     public Long getId() {
         return id;
@@ -35,12 +38,52 @@ public class Member {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 
@@ -87,4 +130,20 @@ public class Member {
  * 개발초기 단계에는 create 또는 update
  * 테스트 서버는 update 또는 validate
  * 스테이징과 운영서버는 validate 또는 none
+ *
+ * 매핑 어노테이션 정리
+ *
+ * @Column - 컬럼매핑
+ *  → name - 필드와 매핑할 테이블의 컬럼 이름
+ *  → insertable, updatable - 등록 ,변경 가능 여부(false일때는 값이 절대변하지않는다.)
+ *  → nullable(DDL) - null값의 허용여부를 설정한다. false로 설정하면 DDL 생성시에 not null 제약조건이 붙는다.
+ *  → unique(DDL) - @Table의 uniqueConstraints와 같지만 한 컬럼에 간단히 유니크 제약조건을 걸때 사용.
+ *  → columnDefinition - 데이터베이스 컬럼정보를 직접 줄수있다. ex) varchar(100) default 'EMPTY'
+ *  → length(DDL) - 문자길이제약조건, String 타입에만 사용한다.
+ *  → precision, scale(DDL) - BigDecimal 타입에 사용한다. 정밀한 소수를 다룰때사용
+ *
+ * @Temporal - 날짜타입 매핑
+ * @Eumerated - enum 타입 매핑
+ * @Lob - BLOB, CLOB 매핑
+ * @Transient - 특정필드를 컬럼에 제외
  */
