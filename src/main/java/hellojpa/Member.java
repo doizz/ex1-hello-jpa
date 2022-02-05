@@ -18,6 +18,12 @@ public class Member {
 
     private int age;
 
+    /**
+     * enum 클래스 EnumType은 String 사용을 권장
+     * ODINAL은 순서 ,String은 명칭.
+     * ODINAL 사용시  중간에 새로은 코드가 추가되면 순서의 꼬일수가있음.
+     * STRING을 사용하는걸 권장.
+     */
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
