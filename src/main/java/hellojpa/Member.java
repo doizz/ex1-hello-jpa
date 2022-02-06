@@ -11,6 +11,7 @@ import java.util.Date;
 public class Member {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="name")
@@ -152,4 +153,30 @@ public class Member {
  * @Eumerated - enum 타입 매핑
  * @Lob - BLOB, CLOB 매핑
  * @Transient - 특정필드를 컬럼에 제외
+ *
+ *
+ * 기본키 매핑
+ *
+ *  직접할당 : @Id만 사용
+ *  자동생성(@GeneratedValue)
+ *   - IDENTITY : 데이터베이스에 위임, (MYSQL)
+ *   - SEQUENCE : 데이터베이스 시퀀스 오브젝트사용, (ORACLE)
+ *      -> @SequenceGenerator필요
+ *   - TABLE : 키생성용 테이블 사용, 모든 DB에서 사용
+ *      -> @TableGenerator 필요
+ *   - AUTO : 방언에 따라 자동지정
+ *
+ * 권장하는 식별자 전략
+ *  - 기본키 제약조건 : null아님, 유일, 변하면 안된다.
+ *  - 미래까지 이조건을 만족하는 자연키는 찾기 어렵다. 대리키(대체키)를 사용하자.
+ *  - 예를 들어 주민등록번호도 기본키로 적절하지 않다.
+ *  권장 : Long형 + 대체키 + 키 생성전략사용
+ * 
+ * IDENTITY전략 - 특징
+ *  - 기본키 생성을 데이터베이스에 위임
+ *  - 주로 MySql, PostgreSQL, SQL Server DB2에서 사용
+ *    -> (예 - MySql의 AUTO_INCREMENT)
+ *  - JPA는 보통 트랜잭션 커밋 시점에서 INSERT_SQL 실행
+ *  - AUTO_INCREMENT는 데이터베이스에 INSERT SQL을 실행 한 이후에 ID값을 알 수 있음
+ *  - IDENTITY 전략은 em.persist()시점에 즉시 INSERT SQL실행하고 DB에서 식별자를 조회
  */
