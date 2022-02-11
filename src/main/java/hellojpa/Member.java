@@ -179,4 +179,22 @@ public class Member {
  *  - JPA는 보통 트랜잭션 커밋 시점에서 INSERT_SQL 실행
  *  - AUTO_INCREMENT는 데이터베이스에 INSERT SQL을 실행 한 이후에 ID값을 알 수 있음
  *  - IDENTITY 전략은 em.persist()시점에 즉시 INSERT SQL실행하고 DB에서 식별자를 조회
+ *
+ *  into
+ *   Member
+ *   (age, createDate, description, lastModifiedDate, roleType, name, id)
+ *   values
+ *   (?, ?, ?, ?, ?, ?, ?)
+ *
+ *   Hibernate:
+ *     create table Member (
+ *        id bigint not null,
+ *         age integer not null,
+ *         createDate timestamp,
+ *         description clob,
+ *         lastModifiedDate timestamp,
+ *         roleType varchar(255),
+ *         name varchar(255),
+ *         primary key (id)
+ *     )
  */
