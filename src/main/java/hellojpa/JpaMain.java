@@ -15,12 +15,23 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
             Member member = new Member();
-            member.setId(2L);
-            member.setUsername("B");
-            member.setRoleType(RoleType.GUEST);
+            member.setUsername("member1");
+            member.setTeam(team);
 
             em.persist(member);
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+
+            Team findTeam = findMember.getTeam();
+            System.out.println("findTeam.getName() = " + findTeam.getName());
+
 
             tx.commit();
         } catch(Exception e){
@@ -32,6 +43,19 @@ public class JpaMain {
 
     }
 }
+/**
+ * Chapter 2
+ * ##단방향 연관관계
+ *
+ * 객체를 테이블에 맞추어 데이터 중심으로 모델링하면,
+ * 협력관계를 만들 수 없다.
+ *
+ * - 테이블은 외래 키로 조인을 사용해서 연관된 테이블을 찾는다.
+ * - 객체는 참조를 사용해서 연관된 객체를 찾는다.
+ * - 테이블과 객체 사이에는 이런 큰 간격이 있다.
+ *
+ * */
+
 
 /**
  * em.persist()은 실행시 DB가 저장되는게 아니라 영속성컨텍스트에서 쓰기지연소에 저장되고
@@ -66,13 +90,13 @@ public class JpaMain {
  *  준영속 상태로 만드는 방법
  *  - em.detach(entity)
  *   특정 엔티티만 준영속 상태로 전환
- *   
+ *
  *  - em.clear()
  *   영속성 컨텍스트를 완전히 초기화
- *   
+ *
  *  - em.close()
  *   영속성 컨텍스트를 종료
- *  
+ *
  */
 
 /**

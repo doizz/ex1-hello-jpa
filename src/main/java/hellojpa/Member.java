@@ -11,13 +11,47 @@ import java.util.Date;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name="name")
+    @Column(name = "USERNAME")
     private String username;
 
-    private int age;
+    @ManyToOne
+    @JoinColumn(name="TEAM_ID")
+    private Team team;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    //    @Column(name = "TEAM_ID")
+//    private Long teamId;
+
+}
+
+
 
     /**
      * enum 클래스 EnumType은 String 사용을 권장
@@ -25,6 +59,17 @@ public class Member {
      * ODINAL 사용시  중간에 새로은 코드가 추가되면 순서의 꼬일수가있음.
      * STRING을 사용하는걸 권장.
      */
+    /**
+     *
+        ** 단방향 맵핑 예제 이전 코드들.
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private Long id;
+
+     @Column(name="USERNAME")
+     private String username;
+
+     private int age;
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
@@ -93,7 +138,7 @@ public class Member {
         this.description = description;
     }
 }
-
+     */
 /**
  *
  * 영속성 컨텍스트
