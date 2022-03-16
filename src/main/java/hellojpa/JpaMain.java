@@ -74,6 +74,7 @@ public class JpaMain {
  *  - 주인은 mappedBy 속성 사용 X
  *  - 주인이 아니면 mappedBy 속성으로 주인 지정
  *
+
  *  ### 누구를 주인으로(mappedBy)?
  *  - 외래키가 있는 곳을 주인으로 정해라
  *  - Mmeber.team이 연관관계의 주인
