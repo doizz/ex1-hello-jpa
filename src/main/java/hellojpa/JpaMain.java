@@ -22,12 +22,12 @@ public class JpaMain {
             Member member = new Member();
             member.setUsername("member1");
             member.setTeam(team);
-
             em.persist(member);
+
+            Team findTeam = em.find(Team.class, team.getId()); //1차 캐시
+
             em.flush();
             em.clear();
-
-            Member findMember = em.find(Member.class, member.getId());
 
             tx.commit();
         } catch(Exception e){
@@ -79,6 +79,11 @@ public class JpaMain {
  *  - 외래키가 있는 곳을 주인으로 정해라
  *  - Mmeber.team이 연관관계의 주인
  *
+ * ### 양방향 매핑 정리
+ * - 단방향 매핑만으로도 이미 연관관계 매핑은 완료
+ * - 양방향 매핑은 반대 방향으로 조회(객체 그래프탐색) 기능이 추가된것 뿐
+ * - JPQL에서 역방향으로 탐색할 일이 많음.
+ * - 단방향 매핑을 잘 하고 양방향은 필요할 때 추가해도됨(테이블에 영향이 없음)
  *
  *
  * */
