@@ -18,9 +18,13 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="TEAM_ID")
     private Team team;
+
+    @OneToMany
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
 
     public Long getId() {
         return id;
