@@ -18,11 +18,11 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="TEAM_ID")
     private Team team;
 
-    @OneToMany
+    @OneToOne
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
 
