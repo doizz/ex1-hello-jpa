@@ -22,6 +22,14 @@ public class JpaMain {
             movie.setName("바람과함계사라지다");
             movie.setPrice(10000);
             em.persist(movie);
+
+            em.flush();
+            em.clear();
+
+            em.find(Movie.class, movie.getId());
+
+
+
             tx.commit();
         } catch(Exception e){
             tx.rollback();
