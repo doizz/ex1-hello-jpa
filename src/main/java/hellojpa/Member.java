@@ -1,14 +1,14 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
  * @Table(name= "실제테이블명") 으로 table명을 지정할수있다.
  */
 @Entity
-@Table
-public class Member {
+public class Member extends BaseEntity{
 
     @Id
     @GeneratedValue

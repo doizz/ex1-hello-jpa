@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 public class JpaMain {
 
@@ -15,20 +16,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Movie movie = new Movie();
 
-            movie.setDirector("aaaa");
-            movie.setActor("bbbb");
-            movie.setName("바람과함계사라지다");
-            movie.setPrice(10000);
-            em.persist(movie);
+            Member member = new Member();
+            member.setUsername("user1");
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
+
+
+           em.persist(member);
 
             em.flush();
             em.clear();
-
-            em.find(Movie.class, movie.getId());
-
-
 
             tx.commit();
         } catch(Exception e){
@@ -85,6 +83,22 @@ public class JpaMain {
  * - 양방향 매핑은 반대 방향으로 조회(객체 그래프탐색) 기능이 추가된것 뿐
  * - JPQL에서 역방향으로 탐색할 일이 많음.
  * - 단방향 매핑을 잘 하고 양방향은 필요할 때 추가해도됨(테이블에 영향이 없음)
+ *
+ *
+ *
+ * # @MappedSuperclass
+ * - 상속관계 매핑 X
+ * - 엔티티X , 테이블 매핑 X
+ * - 부모 클래스를 상속 받는 자식 클래스에 매핑 정보만 제공
+ * - 조회, 검색 불가
+ * - 직접 생성해서 사용할 일이 없으므로 추상클래스도 사용 권장
+ *
+ * - 테이블과 관계없고, 단순히 엔티티가 공통으로 사용하는 매핑 정보를 모으는 역할
+ * - 주로 등록일, 수정일, 등록자, 수정자 같은 전체 엔티티에서 공통으로 적용하는 정보를 모을때 사용
+ * - 참고 : @Entity 클래스는 엔티티나 @MappedSuperclass로 지정한 클래스만 상속가능
+ *
+ *
+ *
  *
  *
  * */

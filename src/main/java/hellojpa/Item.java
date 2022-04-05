@@ -3,8 +3,7 @@ package hellojpa;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Item {
     @Id
     @GeneratedValue
