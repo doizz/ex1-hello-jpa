@@ -17,13 +17,8 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
-
-
-           em.persist(member);
+            Member member = em.find(Member.class, 1L);
+            printMemberAndTeam(member);
 
             em.flush();
             em.clear();
@@ -35,6 +30,16 @@ public class JpaMain {
             em.close();
         }
         emf.close();
+
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username = " + username);
+
+        Team team = member.getTeam();
+        System.out.println("team = " + team);
+
 
     }
 }
@@ -98,6 +103,14 @@ public class JpaMain {
  * - 참고 : @Entity 클래스는 엔티티나 @MappedSuperclass로 지정한 클래스만 상속가능
  *
  *
+ * #프록시
+ *  -프록시
+ *  -즉시 로딩과 지연로딩
+ *  -지연로딩 활용
+ *  -영속성 전이 : CASCADE
+ *  -고아 객체
+ *  -영속성 전이 + 고아객체, 생명주기
+ *  -실전예제 - 5. 연관관계 관리
  *
  *
  *
