@@ -17,11 +17,18 @@ public class JpaMain {
 
         try {
 
-            Member member = em.find(Member.class, 1L);
-            printMemberAndTeam(member);
+            Member member = new Member();
+            member.setUsername("Hellow");
 
+            em.persist(member);
             em.flush();
             em.clear();
+
+            Member findMember = em.find(Member.class, member.getId()
+            );
+            System.out.println("findMember = " + findMember.getUsername());
+
+
 
             tx.commit();
         } catch(Exception e){
@@ -105,6 +112,32 @@ public class JpaMain {
  *
  * #프록시
  *  -프록시
+ *   - 프록시 기초
+ *     - em.find() vs em.getReference()
+ *     - em.find() : 데이터베이스를 통해서 실제 엔티티 객체 조회
+ *     - em.getreference(): 데이터베이스 조회를 미루는 가짜 (프록시) 엔티티객체 조회
+ *   - 프록시 특징
+ *     - 실제 클래스를 상속 받아서 만들어짐
+ *     - 실제 클래스와 겉 모양이 같다.
+ *     - 사용하는 입장에서는 진짜 객체인지 프록시 객체인지 구분하지 않고 사용하면됨
+ *     - 프록시 객체는 실제 객체의 참조를 보관
+ *     - 프록시 객체를 호출하면 프록시 객체는 실제 객체의 메소드호출
+ *    - **프로시의 특징** 중요
+ *      - 프록시 객체는 처음 사용할 떄 한 번만 초기화
+ *      - 프록시 객체를 초기화 할 떄 , 프록시 객체가 실제 엔티티로 바뀌는것은 아님, 초기화되면 프록시 객체를 통해서 실제 엔티티에 접근가능
+ *      - 프록시 객체는 원본 엔티티를 상속받음, 따라서 타입 체크시 주의해야함( ==비교 X , instacce of 로 체크해야함)
+ *          - 영속성 컨텍스트에 찾는 엔티티가 이미 있으면 em.getReference() 를 호출해도 실제 엔티티 반환.
+ *      - 영속성 컨텍스트의 도움을 받을 수 없는 준영속 상태일 때, 프록시를 초기화하면 문제 발생
+ *    - 프록시 확인
+ *      - 프록시 인스턴스의 초기화 여부
+ *       -> PersistenceUnitUtil.isLoaded(Object Entity)
+ *      - 프록시 클래스 확인 방법
+ *       -> entity.getClass().getName() 출력
+ *      - 프록시 강제 초기화
+ *       -> org.hibernate.Hibernate.initiallize(entity);
+ *      - 참고 : JPA표준은 강제 초기화 없음. , 강제 호출 member.getName();
+ *
+ *
  *  -즉시 로딩과 지연로딩
  *  -지연로딩 활용
  *  -영속성 전이 : CASCADE
