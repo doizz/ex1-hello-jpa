@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class JpaMain {
 
@@ -19,14 +20,14 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("Hellow");
-
             em.persist(member);
+
+
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId()
-            );
-            System.out.println("findMember = " + findMember.getUsername());
+            List<Member> members = em.createQuery("select m from Member m ", Member.class)
+                    .getResultList();
 
 
 
@@ -145,7 +146,22 @@ public class JpaMain {
  *  -영속성 전이 + 고아객체, 생명주기
  *  -실전예제 - 5. 연관관계 관리
  *
+ * - 프록시와 즉시로딩 주의
+ *  - 가급적 지연 로딩만 사용 (특히 실무에서)
+ *  - 즉시 로딩을 적용하면 예상하지 못한 SQL이 발샐한다.
+ *  - 즉시 로딩은 JPQL에서 N+1 문제를일으킨다.
+ *  - @ManyToOne , @OneToOne 은기본이 즉시로딩 ->LASY로 설정
+ *  - @OnetoMany , @ManyToMany는 기본이 지연로딩
  *
+ * - 지연로딩 활용
+ *  - Member와 Team은 자주 함께 사용 -> 즉시 로딩
+ *  - Member와 Order는 가끔사용 -> 지연로딩
+ *  - Order와 Product는 자주함께 사용 -> 즉시로
+ *
+ * - 지연로딩 활용 - 실무
+ *  - 모든 연관관계에세 지연로딩을 사용해라(중요)
+ *  - 실무에서 즉시 로딩을 사용하지마라 (중요)
+ *  - 즉시로딩은 상상하지 못한 쿼리가 나간다.
  *
  * */
 
