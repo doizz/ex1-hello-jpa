@@ -1,5 +1,7 @@
 package hellojpa;
 
+import org.hibernate.metamodel.internal.MapMember;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,22 +20,10 @@ public class JpaMain {
 
         try {
 
-            Child child1 = new Child();
-            Child child2 = new Child();
 
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class, parent.getId());
-            findParent.getChildList().remove(0);
-
-
+            Member member = new Member();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city","street","zipcode"));
 
 
             tx.commit();
@@ -46,15 +36,7 @@ public class JpaMain {
 
     }
 
-    private static void printMemberAndTeam(Member member) {
-        String username = member.getUsername();
-        System.out.println("username = " + username);
 
-        Team team = member.getTeam();
-        System.out.println("team = " + team);
-
-
-    }
 }
 /**
  * Chapter 2
@@ -225,7 +207,25 @@ public class JpaMain {
  *    - 래퍼 클래스(Integer , Long)
  *    - String
  *
- *   - 임베디드 타입(emvedded type , 복합 값 타입)
+ *  - 임베디드 타입(emvedded type , 복합 값 타입)
+ *    - 새로운 값 타입을 직접 정의할수 있음.
+ *    - JPA는 임베디드 타입 이라함.
+ *    - 주로 기본 값 타입을 모아서 만들어서 복합 값 타입이라고도 함.
+ *    - int , String 과 같은 값 타입
+ *  - 임베디드 타입의 장점
+ *   - 재사용
+ *   - 높은 응집도
+ *   - Perid.isWork()처럼 해당 값 타입만 사용하는 의미 있는 메소드를 만들 수 있음.
+ *   - 임베디드 타입을 포함한 모든 값 타입은, 값 타입을 소유한 엔티티에 생명주기를 의존함.
+ *
+ *  - 임베디드 타입과 테이블 매핑
+ *   - 임베디드 타입은 엔티티의 값일 뿐이다.
+ *   - 임베디드 타입을 사용하기 전과 후에 매핑하는 테이블은 같다.
+ *   - 객체와 테이블을 아주 세밀하게 매핑하는것이 가능
+ *   - 잘 설계한 ORM 애플리케이션은매핑한 테이블 수보다 클래스의 수가 더 많음.
+ *
+ *
+ *
  *
  *   - 컬렉션 값 타입 (collection value type)
  *
