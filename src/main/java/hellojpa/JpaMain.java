@@ -1,11 +1,15 @@
 package hellojpa;
 
+import org.hibernate.Criteria;
 import org.hibernate.metamodel.internal.MapMember;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,10 +23,6 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("hello");
-            member.setHomeAddress(new Address("city","street","zipcode"));
-
 
             tx.commit();
         } catch(Exception e){
@@ -254,6 +254,34 @@ public class JpaMain {
  *   - 값 타입은 a.equals(b)를 사용해서 동등성 비교를 해야 함
  *   - 값 타입의 equals()메소드를 적절하게 재정의(주로 모든필드 사용함)
  *
+ *  - JPQL 소개
+ *   - 가장 단순한 조회 방법
+ *    - EntityManager.find()
+ *    - 객체 그래프 탐색
+ *
+ *  - JPQL
+ *   - JPA를 사용하면 엔티티 객체를 중심으로 개발
+ *   - 문제는 검색 쿼리
+ *   - 검색을 할 떄도 테입르이 아닌 엔티티 객체를 대상으로 겈ㅁ색
+ *   - 모든 DB데이터를 객체로 변환해서 검객하는 것은 불가능
+ *   - 어플리케이션이 필요한 데이터만 DB에서 불러오려면 결국 검색 조건이 포함된 SQL이 필요
+ *  - JPA는 SQL을 추상화한 JPQL이라는 객체 지향 쿼리 언어 제공
+ *  - SQL과 문법 유사, select, from where, group by having join 지원
+ *  - JPQL은 엔티티 객체를 대상으로 쿼리
+ *  - SQL은 데이터 베이스 테이블을 대상으로 쿼리
+ *
+ *  - 테이블이 아닌 객체를 대상으로 검색하는 객체 지향 쿼리
+ *  - SQL을 추상화해서 특정 데이터 베이스 SQL에 의존X
+ *  - JPQL을 한마디로 정의하면 객체지향 SQL
+ *
+ *  - Criteria 소개
+ *   - 문자가 아닌 자바코드로 JPQL을 작성할 수 있음
+ *   - JPQL빌더 역할
+ *   - JPA공식 기능
+ *   - 단점 : 너무 복잡하고 실용성이 없다.
+ *   - Criteria 대신에 QueryDSL사용 권장
+ *
+ *  - QueryDSL 소개
  *
  *
  *
